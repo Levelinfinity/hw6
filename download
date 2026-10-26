@@ -1,0 +1,778 @@
+openapi: 3.0.3
+info:
+  title: Документация для FRONTEND
+  version: 1.0.0
+  description: Интерактивная документация Swagger / OpenAPI
+paths:
+  /api/about/:
+    get:
+      operationId: api_about_retrieve
+      description: Эндпоинт с описанием структуры, модулей и логики проекта
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/hello/:
+    get:
+      operationId: api_hello_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/profile/:
+    get:
+      operationId: api_profile_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /books/books/:
+    get:
+      operationId: books_books_retrieve
+      tags:
+      - books
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: books_books_create
+      tags:
+      - books
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /shop/shop/:
+    get:
+      operationId: shop_shop_list
+      parameters:
+      - in: query
+        name: color
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - name: size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - shop
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedShopSerList'
+          description: ''
+    post:
+      operationId: shop_shop_create
+      tags:
+      - shop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShopSerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ShopSerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ShopSerRequest'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopSer'
+          description: ''
+  /shop/shop/{id}/:
+    get:
+      operationId: shop_shop_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Магазин.
+        required: true
+      tags:
+      - shop
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopSer'
+          description: ''
+    put:
+      operationId: shop_shop_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Магазин.
+        required: true
+      tags:
+      - shop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShopSerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ShopSerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ShopSerRequest'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopSer'
+          description: ''
+    patch:
+      operationId: shop_shop_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Магазин.
+        required: true
+      tags:
+      - shop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedShopSerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedShopSerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedShopSerRequest'
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopSer'
+          description: ''
+    delete:
+      operationId: shop_shop_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Магазин.
+        required: true
+      tags:
+      - shop
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /task/:
+    get:
+      operationId: task_retrieve
+      tags:
+      - task
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: task_create
+      tags:
+      - task
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /task/{id}/:
+    get:
+      operationId: task_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - task
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: task_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - task
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: task_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - task
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /users/login/:
+    post:
+      operationId: users_login_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /users/login/jwt/:
+    post:
+      operationId: users_login_jwt_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /users/login/token/:
+    post:
+      operationId: users_login_token_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /users/logout/:
+    post:
+      operationId: users_logout_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /users/logout/jwt/refresh/:
+    post:
+      operationId: users_logout_jwt_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /users/logout/token/:
+    post:
+      operationId: users_logout_token_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /users/profile/:
+    get:
+      operationId: users_profile_retrieve
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: users_profile_update
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: users_profile_partial_update
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /users/register/:
+    post:
+      operationId: users_register_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    PaginatedShopSerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShopSer'
+    PatchedShopSerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Название
+          maxLength: 60
+        color:
+          type: string
+          minLength: 1
+          title: Цвет
+          maxLength: 30
+        logo:
+          type: string
+          format: binary
+          nullable: true
+          title: Логотип
+    ShopSer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Название
+          maxLength: 60
+        color:
+          type: string
+          title: Цвет
+          maxLength: 30
+        logo:
+          type: string
+          format: uri
+          nullable: true
+          title: Логотип
+        user:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+      required:
+      - color
+      - id
+      - name
+      - user
+    ShopSerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Название
+          maxLength: 60
+        color:
+          type: string
+          minLength: 1
+          title: Цвет
+          maxLength: 30
+        logo:
+          type: string
+          format: binary
+          nullable: true
+          title: Логотип
+      required:
+      - color
+      - name
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+      required:
+      - access
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - refresh
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
+tags:
+- name: Пользователи(Users)
+  description: Регистрация Профили и Логин
