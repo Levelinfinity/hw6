@@ -5,13 +5,29 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from collections import defaultdict
 
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+
 from .models import Task
 from .serializers import TaskSerializer
 
 
 class TaskView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    @extend_schema(
+        summary="Получить список задач",
+        description="Возвращает список всех задач",
+        parameters=[
+            OpenApiParameter(
+                name="group_by",
+                description="Группировка задач",
+                required=False,
+                type=str,
+                location=OpenApiParameter.QUERY
+            )
+        ],
+        responses={200: TaskSerializer(many=True)}
+    )
     def get(self, request):
         group_by = request.query_params.get("group_by")
         if group_by == "date":
@@ -47,6 +63,12 @@ class TaskView(APIView):
         cache.set("tasks", tasks_data, 60)
         return Response(tasks_data)
 
+    @extend_schema(
+        summary="Создать новую задачу",
+        description="Создает задачу. Только авторизованным пользователям",
+        request=TaskSerializer,
+        responses={201: TaskSerializer}
+    )
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -59,13 +81,24 @@ class TaskView(APIView):
 
 
 class TaskDetailView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    @extend_schema(
+        summary="Получить задачу по ID",
+        description="Детальная информация о конкретной задаче",
+        responses={200: TaskSerializer}
+    )
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
         serializer = TaskSerializer(task)
         return Response(serializer.data)
 
+    @extend_schema(
+        summary="Обновить задачу",
+        description="Полное или частичное обновление задачи",
+        request=TaskSerializer,
+        responses={200: TaskSerializer}
+    )
     def put(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
         serializer = TaskSerializer(task, data=request.data)
@@ -76,6 +109,11 @@ class TaskDetailView(APIView):
         cache.delete("tasks_grouped")
         return Response(serializer.data)
 
+    @extend_schema(
+        summary="Удалить задачу",
+        description="Удаляет задачу по ID",
+        responses={204: {"type": "object", "example": {"message": "Задача удалена"}}}
+    )
     def delete(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
         task.delete()

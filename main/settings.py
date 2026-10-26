@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django_filters', ###
     'rest_framework',
     'drf_spectacular',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
 
     'apps.api',#
     'apps.task',# 
